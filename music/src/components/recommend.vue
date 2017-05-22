@@ -35,6 +35,7 @@
 		getAlbums,
 		getSongList
 	} from '../api/getData.js';
+	import axios from 'axios';
 	export default {
 		data: function() {
 			return {
@@ -46,9 +47,17 @@
 			}
 		},
 		mounted: function() {
-			this.getHot()
+			//this.getHot();
+			this.testData();
 		},
 		methods: {
+			testData:function(){
+				var that = this;
+				axios.get('https://musicapi.duapp.com/api.php?type=topPlayList&cat=&offset=0&limit=6').then(function(res){
+					console.log(res,'....res')
+					that.songlist = res['data']['playlists'];
+				})
+			},
 			async getHot() {
 				var res = await getSongList('', 0, 6);
 				this.songlist = res['playlists'];

@@ -1,7 +1,7 @@
 <template>
-<div class="app">	
+<div class="app">
 	<transition name="router-fade" mode="out-in">
-		<keep-alive>
+		<keep-alive>			
 			<router-view ></router-view>
 		</keep-alive>		
 	</transition>
@@ -113,9 +113,11 @@
 		z-index: 0;
 	}
 	.router-fade-enter-active, .router-fade-leave-active {
-	  	transition: opacity .2s;
+	  	transition: opacity 0.1s;
+	  	
 	}
 	.router-fade-enter, .router-fade-leave-active {
 	  	opacity: 0;
+	  	
 	}
 </style>

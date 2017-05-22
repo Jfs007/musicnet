@@ -18,7 +18,7 @@
 				<p class="cutline"></p>
 			</h1>
 			<ul class="history">
-				<li v-for ='hy in history' @click = 'submits(hy)'>
+				<li v-for ='hy in history' @click = 'submits(hy,1)'>
 					<i class="iconfont icon-lishi"></i>
 					<span class="text">{{hy}}</span>
 					<p class="cutline"></p>
@@ -52,14 +52,17 @@
 		methods:{
 			...mapMutations([
 				'removeHistory',
-				'addHistory'
+				'addHistory',
+				'searchStatus'
 			]),
-			submits:function(value){			
+			submits:function(value,type){		
+				type === 1&&(this.key = value);
 				var keys= typeof value === 'string'?value:this.key;
 				this.addHistory(keys);	
 				//alert(this.keys)
 				this.$router.replace({path:'/search/singleSong',query:{key:keys}});
 				this.search = true;
+				this.searchStatus(true)
 			}
 		},
 		computed:{

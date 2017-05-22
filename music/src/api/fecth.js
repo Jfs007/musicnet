@@ -4,13 +4,10 @@ export default async(type, url, data) => {
 		//credentials: 'include',
 		method: type,
 		headers: {
-			//			'Accept': 'application/json',
-			//			'Content-Type': 'application/json',
 		},
 		mode: "cors",
 		//cache: "force-cache"
 	}
-
 	if(type == 'GET') {
 		let dataStr = ''; //数据拼接字符串
 		Object.keys(data).forEach(key => {
@@ -26,7 +23,6 @@ export default async(type, url, data) => {
 			url = url + temp + dataStr;
 		}
 	}
-
 	console.log(url, '....')
 	if(type == 'POST') {
 		Object.defineProperty(requestConfig, 'body', {

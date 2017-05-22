@@ -36,6 +36,7 @@ module.exports = {
 //        formatter: require('eslint-friendly-formatter')
 //      }
 //    },
+// 处理vue文件,是否分离css取决于环境
       {
         test: /\.vue$/,
         loader: 'vue-loader',

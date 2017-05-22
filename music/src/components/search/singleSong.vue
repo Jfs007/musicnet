@@ -1,6 +1,9 @@
 <template>
 	<div class="singleSong">
 		<ul class="search-list">
+			<div class="loadMore" v-if='loadSearch&&loadings'>
+				<loading v-if='loadings' :loadText='loadText' class='loading'></loading>
+			</div>
 			<li class="search-item" v-for="list in searchLists" @click='bossPlay(list)'>
 				<span class="item left">
 					<p class="name noWrap searchRow"><span>{{list.name}}</span></p>
@@ -16,6 +19,7 @@
 </template>
 <script type="text/javascript">
 	import optionsList from '../cmm/optionsList.vue';
+	import loading from '../cmm/loading.vue';
 	import {
 		search
 	} from '../../api/getData.js';
@@ -30,7 +34,8 @@
 				searchLists: [],
 				isaddList: false,
 				toast:false,
-				key:''
+				key:'',
+				loadings:''
 			}
 		},
 		mounted: function() {
@@ -43,14 +48,17 @@
 		},
 		beforeRouteEnter: function(to, from, next) {
 			next(vm => {
+				vm.loadSearch == true &&( vm.searchLists = [] )
+				vm.loadings = true;
 				vm.key = vm.$route.query.key 
-				vm.search();
+				vm.loadings&&vm.search();
 			})
 		},
 		computed: {
 			...mapGetters([
 				'audio',
-				'playList'
+				'playList',
+				'loadSearch'
 			])
 		},
 		methods: {
@@ -115,6 +123,8 @@
 			async search() {
 				var res = await search(this.key, 1, 8, 0);
 				this.searchLists = res.result.songs;
+				this.loadings = false;
+				this.searchStatus(false);
 			},
 			...mapMutations([
 				'changeSong',
@@ -126,14 +136,16 @@
 				'setIndex',
 				'setBufferTime',
 				'setPosCurrTime',
-				'emptyList'
+				'emptyList',
+				'searchStatus'
 			]),
 			...mapActions({
 				getUrl: 'getSong'
 			}),
 		},
 		components: {
-			optionsList
+			optionsList,
+			loading
 		}
 	}
 </script>
@@ -146,5 +158,17 @@
 	.name span {
 		color: rgb(107, 138, 180);
 		font-size: 1.6rem;
+	}
+	.loadMore{
+		height: 2.5rem;
+		text-align: center;
+		line-height: 2.5rem;
+		color: #008000;
+		box-sizing: content-box;
+		padding-bottom: 8.6rem;
+		position: relative;
+	}
+	.loadMore .loading{
+		top:1rem;
 	}
 </style>

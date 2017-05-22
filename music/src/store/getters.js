@@ -36,8 +36,11 @@ const getters = {
 			return state.durationTime
 		},
 		loading: function(state) {
-				return state.loading
-			}
+			return state.loading
+		},
+		loadSearch: function(state) {
+			return state.loadSearch
+		}
 			// 获得state的内容
 	}
 export default getters;

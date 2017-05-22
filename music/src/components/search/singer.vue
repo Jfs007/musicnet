@@ -1,6 +1,9 @@
 <template>
 	<div class="singer">
 		<ul class="search-list">
+			<div class="loadMore" v-if='loadSearch&&loadings'>
+				<loading v-if='loadings' :loadText='loadText' class='loading'></loading>
+			</div>
 			<li class="search-item search-item-native" v-for='list in searchLists'>
 				<span class="item imgHeader">			
 					<img :src='list.img1v1Url'/>
@@ -22,40 +25,45 @@
 		mapMutations,
 		mapActions
 	} from 'vuex';
+	import loading from '../cmm/loading.vue';
 	export default {
 		data: function() {
 			return {
 				searchLists: [],
 				isaddList: false,
 				toast:false,
-				key:''
+				key:'',
+				loadings:true
 			}
 		},
 		mounted: function() {
 
 		},
 		beforeRouteUpdate:function(to,from,next){
-			this.key = this.$route.query.key 
-			this.search()
-			next()	
+			
 		},
 		beforeRouteEnter: function(to, from, next) {
 			next(vm => {
+				vm.loadSearch == true &&( vm.searchLists = [] )
+				vm.loadings = true;
 				vm.key = vm.$route.query.key 
-				vm.search();
+				vm.loadings&&vm.search();
 			})
 		},
 		computed: {
 			...mapGetters([
 				'searchKey',
 				'audio',
-				'playList'
+				'playList',
+				'loadSearch'
 			])
 		},
 		methods: {
 			async search() {
 				var res = await search(this.key, 100, 8, 0);
 				this.searchLists = res.result.artists;
+				this.loadings = false;
+				this.searchStatus(false);
 			},
 			...mapMutations([
 				'changeSong',
@@ -67,13 +75,15 @@
 				'setIndex',
 				'setBufferTime',
 				'setPosCurrTime',
-				'emptyList'
+				'emptyList',
+				'searchStatus'
 			]),
 			...mapActions({
 				getUrl: 'getSong'
 			}),
 		},
 		components: {
+			loading
 		}
 	}
 </script>
@@ -85,5 +95,17 @@
 	}
 	.singer .name{
 		padding-left: 1.3rem;
+	}
+	.loadMore{
+		height: 2.5rem;
+		text-align: center;
+		line-height: 2.5rem;
+		color: #008000;
+		box-sizing: content-box;
+		padding-bottom: 8.6rem;
+		position: relative;
+	}
+	.loadMore .loading{
+		top:1rem;
 	}
 </style>

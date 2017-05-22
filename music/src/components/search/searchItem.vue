@@ -22,6 +22,7 @@
 		mapMutations,
 		mapActions
 	} from 'vuex';
+	import loading from '../cmm/loading.vue';
 	export default {
 		data: function() {
 			return {
@@ -30,18 +31,25 @@
 		},
 		mounted:function(){
 		},
+		methods: {
+			
+		},
 		props:['keys'],
 		computed: {
 			...mapGetters([
 				'history',
 				'searchKey'
 			]),
+		},
+		components:{
+			loading
 		}
 	}
 </script>
 <style type="text/css" scoped>
 	.searchItem {
 		padding-bottom: 5.5rem;
+		position: relative;
 	}
 	
 	.offsetTop {
@@ -61,5 +69,17 @@
 		display: block;
 		text-align: center;
 		color: #000000;
+	}
+	.loadMore{
+		height: 2.5rem;
+		text-align: center;
+		line-height: 2.5rem;
+		color: #008000;
+		box-sizing: content-box;
+		padding-bottom: 8.6rem;
+		position: relative;
+	}
+	.loadMore .loading{
+		top:1rem;
 	}
 </style>

@@ -53,9 +53,11 @@
 				clientX = getOffset(sliderPad,'left'),
 				that = this;
 			//alert(typeof clientX,'...')
-			maxWidth = getStyle(sliderPad);
+			//alert(sliderPad)
+			maxWidth = getStyle(sliderPad,'width');
+			//修复
 			this.max = parseInt(maxWidth);
-
+			//alert(maxWidth)
 			sliderPad.addEventListener('touchstart', function(e) {
 				//alert('kaishi')
 				document.ontouchmove = function() {

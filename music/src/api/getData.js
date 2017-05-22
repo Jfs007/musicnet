@@ -23,7 +23,7 @@ var getAlbums = function(id) {
 
 	})
 }
-const baseUrl = 'http://musicapi.duapp.com/api.php'
+const baseUrl = '//musicapi.duapp.com/api.php'
 const baseUrl2 = 'https://api.imjad.cn/cloudmusic/'
 	//三种类型歌单 欧美 粤语 华语
 var getSongList = function(cat, offset, limit) {

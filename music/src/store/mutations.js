@@ -135,6 +135,9 @@ const mutations = {
 			state.currentTime = 0;
 			state.bufferTime = 0;
 			state.durationTime = 0;
+		},
+		searchStatus: function(state, status) {
+			state.loadSearch = status
 		}
 
 	}

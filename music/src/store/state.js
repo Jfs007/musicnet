@@ -19,6 +19,7 @@ const state =  {
 		showDetail: true,
 		loading: true,
 		playType: '列表循环',
-		history:['周传雄','薛之谦','hw']
+		history:['周传雄','薛之谦','hw'],
+		loadSearch:false
 	}
 export default state;

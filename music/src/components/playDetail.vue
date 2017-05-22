@@ -95,7 +95,7 @@
 			console.log('.........11112.',to.params)
 			next(vm => {
 				//alert('luyou')
-				console.log('.........路又刷新')
+				console.log('.........路由刷新')
 				if(to.params.id!==vm.audioOldId){			
 					console.log('vm：id' + vm.audio.id);
 					vm.setShowDetail(false);

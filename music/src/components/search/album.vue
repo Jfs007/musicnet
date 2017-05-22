@@ -1,7 +1,9 @@
 <template>
 	<div class="album">
 		<ul class="search-list">
-			<loading v-if='loading'></loading>
+			<div class="loadMore" v-if='loadSearch&&loadings'>
+				<loading v-if='loadings' :loadText='loadText' class='loading'></loading>
+			</div>
 			<li class="search-item search-item-native" v-for='list in searchLists' @click='play(list)'>
 				<span class="item imgAlbum">			
 					<img src="../../assets/player-bar.png" :src='list.picUrl' lazy='loading'/>
@@ -32,33 +34,36 @@
 				isaddList: false,
 				toast: false,
 				key:'',
-				loading:true
+				loadings: true
 			}
 		},
 		beforeRouteUpdate:function(to, from, next) {
 			this.key = this.$route.query.key ;
-			this.loading = true;
+			this.loadings = true;
 			this.search();
 			next();
 		},
 		beforeRouteEnter:function(to, from, next) {
 			next( vm => {
-				vm.loading = true;
+				vm.loadSearch == true &&( vm.searchLists = [] )
+				vm.loadings = true;
 				vm.key = vm.$route.query.key 
-				vm.search();
+				vm.loadings&&vm.search();
 			})
 		},
 		computed: {
 			...mapGetters([
 				'audio',
-				'playList'
+				'playList',
+				'loadSearch'
 			])
 		},
 		methods: {
 			async search() {
 				var res = await search(this.key, 10, 8, 0);
 				this.searchLists = res.result.albums;
-				this.loading = false;
+				this.loadings = false;
+				this.searchStatus(false);
 			},
 			play: function(item) {
 				this.$router.push({
@@ -79,7 +84,8 @@
 				'addSongList',
 				'setAudio',
 				'setLoading',
-				'emptyList'
+				'emptyList',
+				'searchStatus'
 			]),
 			...mapActions({
 				getUrl: 'getSong'
@@ -109,4 +115,16 @@
 	}
 	
 	.album .name {}
+	.loadMore{
+		height: 2.5rem;
+		text-align: center;
+		line-height: 2.5rem;
+		color: #008000;
+		box-sizing: content-box;
+		padding-bottom: 8.6rem;
+		position: relative;
+	}
+	.loadMore .loading{
+		top:1rem;
+	}
 </style>
